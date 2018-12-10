@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>cemk replica page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="https://code.angularjs.org/1.2.0/angular.js"></script>
+
+</head>
+
+<body ng-app="myApp" class="container">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Accenture ></a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active">
+                    <a href="#">Home</a>
+                </li>
+                <li>
+                    <a href="#">Talent Summary</a>
+                </li>
+                <li>
+                    <a href="#">Export</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div ng-controller="myAppController" class="row">
+        <div class="col-md-12">
+            <span>
+
+                Where does it come from? Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical
+                Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney
+                College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage,
+                and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem
+                Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and
+                Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the
+                Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section
+                1.10.32.
+            </span>
+            <br>
+            <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal">People Hierachy</button>
+        </div>
+        <script type="text/ng-template" id="tree_item.html">
+
+    <tr style="width:80%">
+        <td><li class="glyphicon glyphicon glyphicon-arrow-down" ng-click="toggleChildren(data)"></li></td>
+        <td>
+                {{data.value}}
+            <div id="expanded-data" ng-if="data.childrenVisible">
+                <table class="table table-striped" id="nested-table" >
+                        <div ng-repeat="data in data.items" ng-include="'tree_item.html'"></div>
+                </table>
+            </div>
+        </td>
+    </tr>
+    
+</script>
+        <!-- Modal -->
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+
+                <!-- Modal content-->
+                <div class="modal-content row">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Select Your Hierachy</h4>
+                    </div>
+                    <div class="modal-body row">
+                        <div class="col-md-8">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th style="width:30px;">
+                                            <i ng-click="loadItems()" class="fa fa-refresh blueicon"></i>
+                                        </th>
+                                        <th style="width:auto">Data tree</th>
+                                    </tr>
+                                </thead>
+                                <tbody ng-repeat="data in treeData" ng-include="'tree_item.html'">
+
+                                </tbody>
+
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <span>Selected Value:</span>
+                            <input class="form-control" type="text" name="val" ng-model="selectedValue"
+                                readonly>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Done</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        angular.module('myApp', []);
+        function myAppController($scope) {
+            $scope.folderClass;
+            $scope.treeData =
+                [{
+                    "key": "51546412", "value": "Corporate Functions", "isend": 0, "selectable": 0,
+                    "items": [{
+                        "key": "51568895", "value": "Business Performance", "isend": 0, "selectable": 0,
+                        "items": [{ "key": "51568896", "value": "Rest Of Bp", "isend": 0, "selectable": 0 }]
+                    },
+                    { "key": "54345351", "value": "Commercial Management", "isend": 0, "selectable": 0, "items": [] }
+                    ]
+                },
+                { "key": "51546514", "value": "Communications, Media & Technology", "isend": 0, "selectable": 0 }];
+
+
+            $scope.toggleChildren = function (data) {
+                data.childrenVisible = !data.childrenVisible;
+                $scope.selectedValue = data.value;
+                $scope.folderClass = data.childrenVisible ? "glyphicon-plus" : "glyphicon glyphicon-minus";
+            };
+        };
+    </script>
+    <style>
+        #nested-table {
+            margin-bottom: 0px;
+        }
+
+        #expanded-data {
+            margin-left: 20px;
+        }
+    </style>
+    </div>
+
+</html>
